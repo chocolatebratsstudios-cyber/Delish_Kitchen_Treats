@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELISH KITCHEN TREATS • Johannesburg</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --red: #9f1239;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('https://picsum.photos/id/1015/2000/1200') center/cover;
+        }
+
+        .lip-bg {
+            background: linear-gradient(135deg, #9f1239, #4c1d95);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(159 18 57 / 0.4);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #eab308;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .chat-bubble {
+            animation: bubblePop 0.3s ease;
+        }
+
+        @keyframes bubblePop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .drip {
+            animation: drip 3s infinite linear;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="bg-black/90 backdrop-blur-lg border-b border-zinc-800 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <!-- DELISH LOGO (use your uploaded image) -->
+                <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-pink-600 rounded-2xl flex items-center justify-center text-3xl shadow-xl shadow-red-900/50">
+                    🍒
+                </div>
+                <div>
+                    <span class="logo-font text-3xl font-bold tracking-tighter text-white">DELISH</span>
+                    <span class="text-[10px] text-yellow-400 tracking-[3px] font-medium block -mt-1">KITCHEN TREATS</span>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                <a href="#menu" onclick="navigateTo('menu')" class="nav-link cursor-pointer">MENU</a>
+                <a href="#order" onclick="navigateTo('order')" class="nav-link cursor-pointer">QUICK ORDER</a>
+                <a href="#about" onclick="navigateTo('about')" class="nav-link cursor-pointer">OUR STORY</a>
+                <a href="#contact" onclick="navigateTo('contact')" class="nav-link cursor-pointer">CONTACT</a>
+            </div>
+
+            <div class="flex items-center gap-x-6">
+                <!-- Cart -->
+                <button onclick="toggleCart()" class="relative flex items-center gap-x-2 hover:text-yellow-400 transition-colors">
+                    <i class="fa-solid fa-cart-shopping text-2xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+                
+                <!-- AChat Button -->
+                <button onclick="toggleAChat()" 
+                        class="w-11 h-11 bg-gradient-to-br from-black to-zinc-900 border border-yellow-400/30 rounded-3xl flex items-center justify-center hover:scale-110 transition-all shadow-2xl shadow-red-500/30">
+                    <span class="text-2xl">💬</span>
+                </button>
+                
+                <button onclick="toggleMobileMenu()" class="md:hidden text-3xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg h-screen flex items-center relative">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl mb-6 text-sm">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                Johannesburg • Fresh Daily
+            </div>
+            
+            <h1 class="logo-font text-7xl md:text-8xl font-black tracking-tighter leading-none mb-4">
+                PURE<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-red-400 to-pink-500">INDULGENCE</span>
+            </h1>
+            
+            <p class="text-2xl text-zinc-300 max-w-2xl mx-auto mb-10">
+                Handcrafted luxury treats that melt on your tongue and linger on your soul.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="navigateTo('menu')" 
+                        class="lip-bg text-white px-10 py-6 rounded-3xl text-xl font-semibold flex items-center justify-center gap-x-3 hover:scale-105 transition-all shadow-2xl">
+                    <i class="fa-solid fa-utensils"></i>
+                    BROWSE MENU
+                </button>
+                
+                <button onclick="quickOrderSurprise()" 
+                        class="border-2 border-yellow-400 text-yellow-400 px-10 py-6 rounded-3xl text-xl font-semibold flex items-center justify-center gap-x-3 hover:bg-yellow-400 hover:text-black transition-all">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    SURPRISE ME
+                </button>
+            </div>
+            
+            <div class="mt-16 text-xs tracking-widest flex justify-center gap-x-8 text-zinc-400">
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-check"></i> FREE DELIVERY OVER R350</div>
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-check"></i> 100% HANDCRAFTED</div>
+                <div class="flex items-center gap-x-2"><i class="fa-solid fa-check"></i> 24HR FRESHNESS</div>
+            </div>
+        </div>
+
+        <!-- Floating cherry -->
+        <div class="absolute bottom-12 right-12 text-8xl animate-bounce">🍒</div>
+    </header>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="py-24 bg-zinc-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-red-400 text-sm font-medium tracking-widest">SIGNATURE COLLECTION</span>
+                    <h2 class="logo-font text-6xl font-bold tracking-tighter">Our Treats</h2>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button onclick="filterCategory('all')" id="cat-all" 
+                            class="active-cat px-6 py-3 bg-white text-black rounded-3xl font-medium">ALL</button>
+                    <button onclick="filterCategory('chocolate')" id="cat-chocolate" 
+                            class="px-6 py-3 hover:bg-zinc-800 rounded-3xl font-medium transition">CHOCOLATE</button>
+                    <button onclick="filterCategory('baked')" id="cat-baked" 
+                            class="px-6 py-3 hover:bg-zinc-800 rounded-3xl font-medium transition">BAKED</button>
+                </div>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK ORDER -->
+    <section id="order" class="py-24 bg-black">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="logo-font text-6xl font-bold mb-6">One-Click Indulgence</h2>
+            <p class="text-zinc-400 text-xl mb-12">Choose your craving. We'll deliver in under 60 minutes across Joburg.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <button onclick="addPopular(0)" class="bg-zinc-900 hover:bg-zinc-800 p-8 rounded-3xl transition group">
+                    <div class="text-6xl mb-6">🍫</div>
+                    <div class="font-semibold text-xl group-hover:text-yellow-400">Truffle Box</div>
+                    <div class="text-red-400 text-sm">R 320 • 12pcs</div>
+                </button>
+                <button onclick="addPopular(1)" class="bg-zinc-900 hover:bg-zinc-800 p-8 rounded-3xl transition group">
+                    <div class="text-6xl mb-6">🧁</div>
+                    <div class="font-semibold text-xl group-hover:text-yellow-400">Cupcake Dozen</div>
+                    <div class="text-red-400 text-sm">R 295 • Mixed</div>
+                </button>
+                <button onclick="addPopular(2)" class="bg-zinc-900 hover:bg-zinc-800 p-8 rounded-3xl transition group">
+                    <div class="text-6xl mb-6">🥐</div>
+                    <div class="font-semibold text-xl group-hover:text-yellow-400">Croissant Box</div>
+                    <div class="text-red-400 text-sm">R 210 • Fresh</div>
+                </button>
+                <button onclick="addPopular(3)" class="bg-zinc-900 hover:bg-zinc-800 p-8 rounded-3xl transition group">
+                    <div class="text-6xl mb-6">🍰</div>
+                    <div class="font-semibold text-xl group-hover:text-yellow-400">Mini Cheesecake</div>
+                    <div class="text-red-400 text-sm">R 180 • 6pcs</div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-24 bg-zinc-900">
+        <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <img src="https://picsum.photos/id/201/800/800" alt="Delish Kitchen" class="rounded-3xl shadow-2xl">
+            </div>
+            <div class="space-y-8">
+                <div class="lip-bg text-white px-8 py-10 rounded-3xl">
+                    <span class="text-yellow-300 text-sm tracking-widest">EST. 2023 • ROSEBANK</span>
+                    <h3 class="logo-font text-5xl font-bold mt-4 leading-none">Seduction in every bite.</h3>
+                </div>
+                <p class="text-zinc-400 text-lg leading-relaxed">
+                    From our private kitchen in Johannesburg, we craft small-batch luxury desserts using the finest imported chocolate, fresh cream, and hand-picked South African ingredients.
+                </p>
+                <div class="flex gap-8 text-sm">
+                    <div>
+                        <div class="font-mono text-4xl font-bold text-yellow-400">2,347</div>
+                        <div class="text-zinc-400">Happy mouths fed</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-4xl font-bold text-yellow-400">98%</div>
+                        <div class="text-zinc-400">Repeat customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 bg-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <div id="testimonials" class="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+                <!-- JS populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / CONTACT -->
+    <footer id="contact" class="bg-zinc-950 border-t border-zinc-800 py-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div>
+                <div class="flex items-center gap-x-3 mb-6">
+                    <span class="text-4xl">🍒</span>
+                    <span class="logo-font text-4xl font-black">DELISH</span>
+                </div>
+                <p class="text-zinc-400">Luxury kitchen treats delivered to your door in Johannesburg &amp; surrounds.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-6 text-yellow-400">QUICK LINKS</h4>
+                <ul class="space-y-3 text-zinc-400">
+                    <li><a href="#" onclick="navigateTo('menu');return false" class="hover:text-white">Menu</a></li>
+                    <li><a href="#" onclick="navigateTo('order');return false" class="hover:text-white">Quick Order</a></li>
+                    <li><a href="#" class="hover:text-white">Corporate Gifting</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-6 text-yellow-400">GET IN TOUCH</h4>
+                <div class="space-y-4">
+                    <div class="flex gap-3">
+                        <i class="fa-solid fa-phone text-red-400 mt-1"></i>
+                        <div>081 555 2026</div>
+                    </div>
+                    <div class="flex gap-3">
+                        <i class="fa-solid fa-envelope text-red-400 mt-1"></i>
+                        <div>hello@delish.co.za</div>
+                    </div>
+                    <button onclick="showOrderSuccess()" 
+                            class="mt-6 w-full bg-red-600 hover:bg-red-700 py-5 rounded-3xl font-bold text-lg">
+                        PLACE ORDER NOW
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs text-zinc-500 mt-20">
+            © 2026 DELISH KITCHEN TREATS • MADE WITH PASSION IN SOUTH AFRICA
+        </div>
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-700 translate-x-full transition-transform duration-500 flex flex-col z-[100]">
+        <div class="p-8 border-b border-zinc-700 flex justify-between items-center">
+            <h3 class="text-2xl font-semibold">Your Cart</h3>
+            <button onclick="toggleCart()" class="text-3xl text-zinc-400 hover:text-white">✕</button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-auto p-8 space-y-8">
+            <!-- JS populated -->
+        </div>
+        
+        <div class="p-8 border-t border-zinc-700">
+            <div class="flex justify-between text-xl mb-8">
+                <span>Total</span>
+                <span id="cart-total" class="font-bold text-yellow-400">R 0</span>
+            </div>
+            <button onclick="checkout()" 
+                    class="w-full py-7 bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-xl rounded-3xl hover:scale-105 transition-all">
+                PROCEED TO CHECKOUT
+            </button>
+            <button onclick="toggleCart()" class="w-full mt-4 text-zinc-400">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- ACHAT SIDEBAR -->
+    <div id="achat-sidebar" class="fixed top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-700 translate-x-full transition-transform duration-500 flex flex-col z-[100]">
+        <div class="p-6 border-b border-zinc-700 flex items-center gap-x-4">
+            <div class="w-11 h-11 bg-gradient-to-br from-black to-zinc-900 border border-yellow-400 rounded-3xl flex items-center justify-center text-3xl">
+                💬
+            </div>
+            <div>
+                <div class="font-bold text-xl">AChat</div>
+                <div class="text-emerald-400 text-sm flex items-center gap-1">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    Online • Your personal concierge
+                </div>
+            </div>
+            <button onclick="toggleAChat()" class="ml-auto text-3xl text-zinc-400">✕</button>
+        </div>
+        
+        <div id="chat-messages" class="flex-1 p-6 overflow-auto space-y-6 text-sm">
+            <!-- JS messages -->
+        </div>
+        
+        <div class="p-4 border-t border-zinc-700">
+            <!-- Quick replies -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button onclick="quickReply('Show me the menu')" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-3xl">Menu</button>
+                <button onclick="quickReply('Recommend something sweet')" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-3xl">Recommend</button>
+                <button onclick="quickReply('What\'s fresh today?')" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-3xl">Fresh today?</button>
+                <button onclick="quickReply('Track my order')" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-3xl">Track order</button>
+            </div>
+            
+            <div class="flex gap-3">
+                <input id="chat-input" 
+                       onkeypress="if(event.key==='Enter') sendChatMessage()"
+                       type="text" 
+                       placeholder="Ask AChat anything..." 
+                       class="flex-1 bg-zinc-800 border border-zinc-700 focus:border-yellow-400 rounded-3xl px-6 py-4 outline-none">
+                <button onclick="sendChatMessage()" 
+                        class="w-14 h-14 bg-yellow-400 text-black rounded-3xl flex items-center justify-center text-2xl hover:bg-amber-400">
+                    →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 bg-zinc-800 border border-yellow-400 text-yellow-400 px-8 py-4 rounded-3xl flex items-center gap-x-3 shadow-2xl">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toast-text" class="font-medium"></span>
+    </div>
+
+    <script>
+        // Tailwind script already loaded
+        
+        // PRODUCTS
+        let products = [
+            { id: 1, name: "Belgian Dark Truffles", category: "chocolate", price: 320, emoji: "🍫", desc: "12 hand-rolled pieces" },
+            { id: 2, name: "Red Velvet Dream Cupcakes", category: "baked", price: 295, emoji: "🧁", desc: "Box of 6" },
+            { id: 3, name: "Pistachio Macarons", category: "baked", price: 280, emoji: "🌿", desc: "8 elegant pieces" },
+            { id: 4, name: "Salted Caramel Bonbons", category: "chocolate", price: 350, emoji: "🍬", desc: "Luxury 10pc box" },
+            { id: 5, name: "Mini Lemon Meringue Tarts", category: "baked", price: 240, emoji: "🍋", desc: "6 mini tarts" },
+            { id: 6, name: "Gold Dust Chocolate Cake", category: "chocolate", price: 420, emoji: "🎂", desc: "Serves 8" }
+        ]
+        
+        let cart = []
+        
+        // Render products
+        function renderProducts(filtered = products) {
+            const grid = document.getElementById('products-grid')
+            grid.innerHTML = ''
+            
+            filtered.forEach(product => {
+                const card = document.createElement('div')
+                card.className = `bg-zinc-800 rounded-3xl overflow-hidden card-hover`
+                card.innerHTML = `
+                    <div class="h-56 bg-gradient-to-br from-zinc-700 to-black flex items-center justify-center text-9xl border-b border-zinc-700">
+                        ${product.emoji}
+                    </div>
+                    <div class="p-6">
+                        <div class="font-semibold text-xl mb-1">${product.name}</div>
+                        <div class="text-zinc-400 text-sm mb-4">${product.desc}</div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="text-3xl font-bold text-yellow-400">R ${product.price}</span>
+                            </div>
+                            <button onclick="addToCart(${product.id}); event.stopImmediatePropagation()" 
+                                    class="bg-white text-black px-6 py-3 rounded-3xl text-sm font-semibold hover:bg-yellow-400 transition-all">
+                                ADD TO CART
+                            </button>
+                        </div>
+                    </div>
+                `
+                grid.appendChild(card)
+            })
+        }
+        
+        function filterCategory(cat) {
+            document.querySelectorAll('[id^="cat-"]').forEach(el => el.classList.remove('active-cat', 'bg-white', 'text-black'))
+            
+            if (cat === 'all') {
+                document.getElementById('cat-all').classList.add('active-cat', 'bg-white', 'text-black')
+                renderProducts()
+            } else {
+                document.getElementById(`cat-${cat}`).classList.add('active-cat', 'bg-white', 'text-black')
+                const filtered = products.filter(p => p.category === cat)
+                renderProducts(filtered)
+            }
+        }
+        
+        // Cart functions
+        function addToCart(id) {
+            const product = products.find(p => p.id === id)
+            const existing = cart.find(item => item.id === id)
+            
+            if (existing) {
+                existing.qty++
+            } else {
+                cart.push({...product, qty: 1})
+            }
+            
+            updateCartCount()
+            showToast(`Added ${product.name} to cart 🍒`)
+            
+            // Auto open cart after 3 adds
+            if (cart.length >= 3 && Math.random() > 0.7) {
+                setTimeout(() => toggleCart(), 800)
+            }
+        }
+        
+        function addPopular(index) {
+            const popular = [1,2,3,5]
+            addToCart(popular[index])
+        }
+        
+        function updateCartCount() {
+            let count = 0
+            cart.forEach(item => count += item.qty)
+            document.getElementById('cart-count').textContent = count
+        }
+        
+        function renderCart() {
+            const container = document.getElementById('cart-items')
+            container.innerHTML = ''
+            
+            let total = 0
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 text-zinc-500">Your cart is empty.<br>Time to treat yourself 🍒</div>`
+                document.getElementById('cart-total').textContent = 'R 0'
+                return
+            }
+            
+            cart.forEach((item, i) => {
+                const itemTotal = item.price * item.qty
+                total += itemTotal
+                
+                const div = document.createElement('div')
+                div.className = "flex gap-4"
+                div.innerHTML = `
+                    <div class="text-5xl flex-shrink-0">${item.emoji}</div>
+                    <div class="flex-1">
+                        <div class="flex justify-between">
+                            <div class="font-medium">${item.name}</div>
+                            <button onclick="removeFromCart(${i}); event.stopImmediatePropagation()" class="text-red-400 text-xs">REMOVE</button>
+                        </div>
+                        <div class="text-xs text-zinc-400">${item.desc}</div>
+                        <div class="flex justify-between mt-4">
+                            <div class="flex border border-zinc-700 rounded-3xl">
+                                <button onclick="changeQty(${i}, -1)" class="w-8 h-8 flex items-center justify-center text-xl leading-none">-</button>
+                                <div class="px-4 flex items-center font-mono">${item.qty}</div>
+                                <button onclick="changeQty(${i}, 1)" class="w-8 h-8 flex items-center justify-center text-xl leading-none">+</button>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-yellow-400">R ${itemTotal}</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+                container.appendChild(div)
+            })
+            
+            document.getElementById('cart-total').textContent = `R ${total}`
+        }
+        
+        function changeQty(index, delta) {
+            cart[index].qty += delta
+            if (cart[index].qty < 1) cart.splice(index, 1)
+            renderCart()
+            updateCartCount()
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1)
+            renderCart()
+            updateCartCount()
+        }
+        
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar')
+            sidebar.classList.toggle('translate-x-full')
+            if (!sidebar.classList.contains('translate-x-full')) {
+                renderCart()
+            }
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return
+            showToast("🎉 Order placed! Your treats are being prepared in Rosebank.", 5000)
+            setTimeout(() => {
+                cart = []
+                updateCartCount()
+                toggleCart()
+                showOrderSuccess()
+            }, 1500)
+        }
+        
+        // AChat
+        let chatHistory = []
+        
+        function toggleAChat() {
+            const sidebar = document.getElementById('achat-sidebar')
+            sidebar.classList.toggle('translate-x-full')
+            
+            if (chatHistory.length === 0) {
+                setTimeout(() => {
+                    addChatMessage("system", "Hi there! I'm AChat 🍒 — your personal Delish concierge. How may I indulge you today?")
+                }, 600)
+            }
+        }
+        
+        function addChatMessage(sender, text) {
+            const container = document.getElementById('chat-messages')
+            const bubble = document.createElement('div')
+            bubble.className = sender === 'user' ? 'ml-auto max-w-[75%] chat-bubble' : 'mr-auto max-w-[75%] chat-bubble'
+            
+            bubble.innerHTML = `
+                <div class="${sender === 'user' ? 'bg-yellow-400 text-black' : 'bg-zinc-800'} rounded-3xl px-5 py-3">
+                    ${text}
+                </div>
+            `
+            container.appendChild(bubble)
+            container.scrollTop = container.scrollHeight
+        }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input')
+            const msg = input.value.trim()
+            if (!msg) return
+            
+            addChatMessage('user', msg)
+            input.value = ''
+            
+            // Simulate AI thinking
+            setTimeout(() => {
+                let reply = "I'd love to help! Tell me more about what you're craving 🍒"
+                
+                const lower = msg.toLowerCase()
+                
+                if (lower.includes('menu') || lower.includes('show')) {
+                    reply = "Our full menu is right above! Would you like me to recommend the best seller?"
+                } else if (lower.includes('recommend') || lower.includes('suggest')) {
+                    reply = "The Salted Caramel Bonbons are flying off the shelves today! Shall I add a box to your cart?"
+                    setTimeout(() => {
+                        if (confirm("Add Salted Caramel Bonbons (R350) to cart?")) {
+                            addToCart(4)
+                        }
+                    }, 800)
+                } else if (lower.includes('price') || lower.includes('cost')) {
+                    reply = "All our treats are listed with prices on the menu. Everything is under R450."
+                } else if (lower.includes('delivery') || lower.includes('time')) {
+                    reply = "We deliver within 60 minutes inside Johannesburg. Free over R350!"
+                } else if (lower.includes('hello') || lower.includes('hi')) {
+                    reply = "Hello gorgeous! Ready to treat yourself?"
+                }
+                
+                addChatMessage('system', reply)
+            }, 900)
+        }
+        
+        function quickReply(text) {
+            addChatMessage('user', text)
+            // Trigger same logic
+            setTimeout(() => {
+                let reply = "Got it! Anything else?"
+                if (text.includes('menu')) reply = "Here are our current favourites →"
+                if (text.includes('Recommend')) reply = "The Red Velvet Cupcakes are calling your name 🧁"
+                addChatMessage('system', reply)
+            }, 700)
+        }
+        
+        // Toast
+        function showToast(message, timeout = 2800) {
+            const toast = document.getElementById('toast')
+            document.getElementById('toast-text').innerHTML = message
+            toast.classList.remove('hidden')
+            toast.style.transform = 'translate(-50%, 0)'
+            
+            setTimeout(() => {
+                toast.style.transform = 'translate(-50%, 100px)'
+                setTimeout(() => toast.classList.add('hidden'), 600)
+            }, timeout)
+        }
+        
+        function showOrderSuccess() {
+            const msg = `
+                <div class="fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
+                    <div class="text-center">
+                        <div class="text-8xl mb-8 animate-bounce">🎉🍒</div>
+                        <div class="logo-font text-6xl font-black mb-4">THANK YOU!</div>
+                        <div class="text-2xl text-yellow-400">Your order has been received</div>
+                        <div class="text-zinc-400 mt-2">Estimated arrival: 42 minutes</div>
+                        <button onclick="this.closest('.fixed').remove()" 
+                                class="mt-12 px-12 py-6 bg-white text-black rounded-3xl font-bold text-xl">
+                            BACK TO DELISH
+                        </button>
+                    </div>
+                </div>
+            `
+            const div = document.createElement('div')
+            div.innerHTML = msg
+            document.body.appendChild(div.children[0])
+        }
+        
+        // Navigation
+        function navigateTo(section) {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' })
+        }
+        
+        function toggleMobileMenu() {
+            alert("Mobile menu would expand here in a full project 🍒\n(Already super functional on desktop!)")
+        }
+        
+        function quickOrderSurprise() {
+            const randomProduct = products[Math.floor(Math.random() * products.length)]
+            addToCart(randomProduct.id)
+            showToast(`Surprise! We added the ${randomProduct.name} for you 🍒`, 4000)
+        }
+        
+        // Testimonials
+        function renderTestimonials() {
+            const container = document.getElementById('testimonials')
+            const testimonials = [
+                { name: "Lebo M.", text: "The truffles arrived still warm. Best decision of my week.", rating: "★★★★★" },
+                { name: "Sipho K.", text: "Ordered at 10pm, received at 11:15pm. Unreal service and taste.", rating: "★★★★★" },
+                { name: "Thandiwe N.", text: "My clients went absolutely silent when they tasted the caramel bonbons.", rating: "★★★★☆" }
+            ]
+            
+            testimonials.forEach(t => {
+                const div = document.createElement('div')
+                div.className = "min-w-[340px] bg-zinc-900 p-8 rounded-3xl snap-center"
+                div.innerHTML = `
+                    <div class="flex gap-x-1 text-yellow-400 mb-6">${t.rating}</div>
+                    <div class="italic text-lg leading-relaxed">"${t.text}"</div>
+                    <div class="mt-8 text-sm text-zinc-400">— ${t.name}</div>
+                `
+                container.appendChild(div)
+            })
+        }
+        
+        // INIT
+        window.onload = function() {
+            // Render everything
+            renderProducts()
+            renderTestimonials()
+            updateCartCount()
+            
+            // Keyboard shortcut for AChat
+            document.addEventListener('keydown', e => {
+                if (e.metaKey && e.key === "k") {
+                    e.preventDefault()
+                    toggleAChat()
+                }
+            })
+            
+            // Welcome toast
+            setTimeout(() => {
+                showToast("Welcome to DELISH 🍒<br>Everything is fresher in Codespaces!", 4200)
+            }, 2200)
+            
+            console.log('%cDELISH KITCHEN TREATS — Fully functional demo ready! 🚀', 'color:#eab308; font-size:13px')
+        }
+    </script>
+</body>
+</html>
